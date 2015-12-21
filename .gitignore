@@ -60,3 +60,6 @@ target/
 
 # svn
 .svn/
+
+# vi & vim
+*.swp
