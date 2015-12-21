@@ -7,8 +7,8 @@ class NginxHandler(tornado.web.RequestHandler):
     def post(self):
         action = self.get_argument('action')
         #post3种请求 
-        #一：取   1：取所有key, 2根据key取value：
-        #二：改 3:根据key改value
+        #一：查   1：查所有key, 2根据key查value：
+        #二：改,增 3:根据key改value(如果key不存在则创建)
         #三：删 4:根据key名删key
         if action == "takebykey":
             #2:根据key取value
@@ -29,7 +29,7 @@ class NginxHandler(tornado.web.RequestHandler):
             self.write(json.dumps({"allkeys":allkeys}))
 
         elif action == "changebykey":
-            #根据key改value
+            #3：根据key改value
             key = self.get_argument('key','None')
             ips = self.get_argument('ips','None')
             if key == "None" or ips == "None":
@@ -38,12 +38,15 @@ class NginxHandler(tornado.web.RequestHandler):
                 self.application.db.hset("nginx",key,ips)
                 self.write(json.dumps({"success":[{"key":key,"ips":ips}]}))
         elif action == "delbykey":
-            #根据key名删key
+            #4：根据key名删key
             key = self.get_argument('key','None')
             #根据key检查reids中是否存在该key，如果存在则删除
             key_domain = self.application.db.hexists("nginx",key)
             if key_domain is True:
-                print "yes"
+                r = self.application.db.hdel("nginx",key)
+                msg = "The %s was del" % key
+                json_result = {'succes':msg}
+                self.write(json.dumps(json_result))
             else:
                 msg = "The %s is not exist!" % key
                 json_result = {'error':msg}
