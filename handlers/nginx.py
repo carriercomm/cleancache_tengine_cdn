@@ -45,7 +45,9 @@ class NginxHandler(tornado.web.RequestHandler):
             if key_domain is True:
                 print "yes"
             else:
-                print "No"
+                msg = "The %s is not exist!" % key
+                json_result = {'error':msg}
+                self.write(json.dumps(json_result))
              
         else:
             msg = "bad action"
