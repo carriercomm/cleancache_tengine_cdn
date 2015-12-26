@@ -10,7 +10,7 @@
 
       3:同时清理akamai和nginx(cleartype=nginxakamai)
       http://127.0.0.1:8009/clear?cleartype=nginxakamai&url=http://www.xxx.com/index.html
-
+------
 
 ### 二：维护域名对应nginx的IP列表（post请求，暂未加入认证）：
 ------
@@ -26,4 +26,4 @@
 
       4: 根据域名删除key
       action=delbykey&key=www.test.com
-
+------
