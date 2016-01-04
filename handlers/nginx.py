@@ -7,7 +7,7 @@ class NginxHandler(tornado.web.RequestHandler):
     def post(self):
         action = self.get_argument('action')
         #post3种请求 
-        #一：查   1：查所有key, 2根据key查value：
+        #一：查   1：查所有key, 2根据key查value,5查所有key和value
         #二：改,增 3:根据key改value(如果key不存在则创建)
         #三：删 4:根据key名删key
         if action == "takebykey":
@@ -51,6 +51,10 @@ class NginxHandler(tornado.web.RequestHandler):
                 msg = "The %s is not exist!" % key
                 json_result = {'error':msg}
                 self.write(json.dumps(json_result))
+
+        elif action == "takeall":
+            all = self.application.db.hgetall("nginx")
+            self.write(json.dumps({"all":all}))
              
         else:
             msg = "bad action"

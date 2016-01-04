@@ -26,4 +26,7 @@
 
       4: 根据域名删除key
       action=delbykey&key=www.test.com
+
+      5: 取所有域名和key
+      action=takeall
 ------
